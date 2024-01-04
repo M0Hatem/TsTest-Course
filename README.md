@@ -8,7 +8,7 @@ This project is a TypeScript testing course. It is designed to help developers l
 
 To install the project, follow these steps:
 
-1. Clone the repository: `git clone <https://github.com/M0Hatem/TsTest-Course>`
+1. Clone the repository: `git clone https://github.com/M0Hatem/TsTest-Course`
 2. Navigate to the project directory: `cd TSTestCourse`
 3. Install the dependencies: `npm install`
 
