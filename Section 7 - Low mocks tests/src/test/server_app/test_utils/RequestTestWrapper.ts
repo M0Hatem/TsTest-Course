@@ -4,7 +4,9 @@ export class RequestTestWrapper{
     public body:object;
     public method:HTTP_METHODS;
     public url:string;
-    public headers={}
+    public headers={
+
+    }
 
     public on(event,cb){
         if (event=='data'){

@@ -50,8 +50,8 @@ describe('LoginRequests test suite', () => {
         requestWrapper.url = 'localHost:8080/login'
 
         getBySpy.mockResolvedValueOnce(someCredentials);
-
         insertSpy.mockResolvedValueOnce(someToken);
+
         await new Server().startServer()
 
         await new Promise(process.nextTick)
@@ -70,7 +70,7 @@ describe('LoginRequests test suite', () => {
         }
         requestWrapper.url = 'localHost:8080/login'
 
-        jest.spyOn(UserCredentialsDataAccess.prototype,'getUserByUserName').mockResolvedValueOnce({}as any)
+        getBySpy.mockResolvedValueOnce({});
 
         await new Server().startServer()
 
@@ -79,4 +79,37 @@ describe('LoginRequests test suite', () => {
         expect(responseWrapper.statusCode).toBe(HTTP_CODES.NOT_fOUND)
         expect(responseWrapper.body).toEqual('wrong username or password')
     });
+    it("should return bad request if no credentials in request",async () => {
+        requestWrapper.method = HTTP_METHODS.POST;
+        requestWrapper.body = {
+
+        }
+        requestWrapper.url = 'localHost:8080/login'
+
+
+
+        await new Server().startServer()
+
+        await new Promise(process.nextTick)
+
+        expect(responseWrapper.statusCode).toBe(HTTP_CODES.BAD_REQUEST)
+        expect(responseWrapper.headers).toContainEqual(jsonHeader);
+        expect(responseWrapper.body).toEqual('userName and password required')
+    });
+    it("should do nothing for not supported methods",async () => {
+        requestWrapper.method = HTTP_METHODS.DELETE;
+
+        requestWrapper.url = 'localHost:8080/login'
+
+
+
+        await new Server().startServer()
+
+        await new Promise(process.nextTick)
+
+        expect(responseWrapper.statusCode).toBeUndefined();
+        expect(responseWrapper.headers).toHaveLength(0);
+        expect(responseWrapper.body).toBeUndefined();
+    });
+
 });
