@@ -3,6 +3,9 @@ import {HTTP_CODES, HTTP_METHODS} from "../../app/model/ServerModel";
 import {Account} from "../../app/model/AuthModel";
 import {makeAwesomeRequest} from "./Utils/http-client";
 import {Reservation} from "../../app/model/ReservationModel";
+import * as Util from "../../app/data/IdGenerator";
+
+jest.spyOn(Util,'generateRandomId').mockReturnValue('1234')
 
 describe('Server app integration tests', () => {
     let server:Server;
@@ -174,4 +177,22 @@ describe('Server app integration tests', () => {
         expect(result.status).toBe(HTTP_CODES.NOT_fOUND)
     });
 
+    // it('snapshot demo', async () => {
+    //     await fetch('http://localhost:8080/reservation',{
+    //         method:HTTP_METHODS.POST,
+    //         body: JSON.stringify(someReservation),
+    //         headers:{
+    //             authorization:token
+    //         }
+    //     })
+    //     const result = await fetch(`http://localhost:8080/reservation/1234`,{
+    //
+    //         method:HTTP_METHODS.GET,
+    //         headers:{
+    //             authorization:token
+    //         }
+    //     })
+    //     const getRequestBody:Reservation = await  result.json()
+    //     expect(getRequestBody).toMatchSnapshot()
+    // });
 });
