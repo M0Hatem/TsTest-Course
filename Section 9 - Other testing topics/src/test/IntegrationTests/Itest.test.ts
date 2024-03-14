@@ -5,7 +5,6 @@ import {makeAwesomeRequest} from "./Utils/http-client";
 import {Reservation} from "../../app/model/ReservationModel";
 import * as Util from "../../app/data/IdGenerator";
 
-jest.spyOn(Util,'generateRandomId').mockReturnValue('1234')
 
 describe('Server app integration tests', () => {
     let server:Server;
@@ -177,22 +176,24 @@ describe('Server app integration tests', () => {
         expect(result.status).toBe(HTTP_CODES.NOT_fOUND)
     });
 
-    // it('snapshot demo', async () => {
-    //     await fetch('http://localhost:8080/reservation',{
-    //         method:HTTP_METHODS.POST,
-    //         body: JSON.stringify(someReservation),
-    //         headers:{
-    //             authorization:token
-    //         }
-    //     })
-    //     const result = await fetch(`http://localhost:8080/reservation/1234`,{
-    //
-    //         method:HTTP_METHODS.GET,
-    //         headers:{
-    //             authorization:token
-    //         }
-    //     })
-    //     const getRequestBody:Reservation = await  result.json()
-    //     expect(getRequestBody).toMatchSnapshot()
-    // });
+    it('snapshot demo', async () => {
+        jest.spyOn(Util,'generateRandomId').mockReturnValue('1234')
+
+        await fetch('http://localhost:8080/reservation',{
+            method:HTTP_METHODS.POST,
+            body: JSON.stringify(someReservation),
+            headers:{
+                authorization:token
+            }
+        })
+        const result = await fetch(`http://localhost:8080/reservation/12345`,{
+
+            method:HTTP_METHODS.GET,
+            headers:{
+                authorization:token
+            }
+        })
+        const getRequestBody:Reservation = await  result.json()
+        expect(getRequestBody).toMatchSnapshot()
+    });
 });
